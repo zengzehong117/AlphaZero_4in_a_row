@@ -26,9 +26,18 @@ class Human(object):
 
     def get_action(self, board):
         try:
-            location = input("Your move: ")
+            location = input("Your move(An integer,0-6): ")
             if isinstance(location, str):  # for python3
                 location = [int(n, 10) for n in location.split(",")]
+            move_col=location[0]
+            move_row = -1
+            moveds = [i for i in list(range(7*6)) if i not in board.availables] 
+            for moved in moveds:
+                moved_location = [int(moved/7),int(moved%7)]
+                if moved_location[1] == move_col and moved_location[0]>move_row:
+                    move_row = moved_location[0]
+            move_row += 1
+            location = [move_row,move_col]
             move = board.location_to_move(location)
         except Exception as e:
             move = -1
